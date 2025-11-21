@@ -140,13 +140,23 @@ function loadProducts(filteredProducts = products) {
   });
 }
 
+// IA#2: Function to get correct image path based on current location
+function getImagePath(imagePath) {
+  // Check if we're in the Codes folder or root
+  const isInCodesFolder = window.location.pathname.includes("/Codes/");
+  if (isInCodesFolder) {
+    return "../" + imagePath;
+  }
+  return imagePath;
+}
+
 // IA#2: Function to create product card element using DOM manipulation
 function createProductCard(product) {
   const card = document.createElement("div");
   card.className = "product-card";
 
   const img = document.createElement("img");
-  img.src = product.image;
+  img.src = getImagePath(product.image);
   img.alt = product.name;
   img.className = "product-image";
 
@@ -205,7 +215,7 @@ function addToCart(product) {
       id: product.id,
       name: product.name,
       price: product.price,
-      image: product.image,
+      image: getImagePath(product.image),
       quantity: 1,
     });
   }
