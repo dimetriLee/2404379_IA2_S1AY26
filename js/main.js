@@ -8,7 +8,7 @@ const products = [
     description: "Premium attack lacrosse stick with carbon fiber shaft",
     price: 299.99,
     category: "sticks",
-    image: "./assets/attackStick.webp",
+    image: "assets/attackStick.webp",
     featured: true,
   },
   {
@@ -17,7 +17,7 @@ const products = [
     description: "Heavy-duty defense stick for maximum control",
     price: 249.99,
     category: "sticks",
-    image: "./assets/defenseStick.webp",
+    image: "assets/defenseStick.webp",
     featured: true,
   },
   {
@@ -26,7 +26,7 @@ const products = [
     description: "Advanced protection with superior ventilation",
     price: 199.99,
     category: "protective",
-    image: "./assets/helmet.jpg",
+    image: "assets/helmet.jpg",
     featured: true,
   },
   {
@@ -35,7 +35,7 @@ const products = [
     description: "Enhanced grip and flexibility for better control",
     price: 149.99,
     category: "protective",
-    image: "./assets/gloves.webp",
+    image: "assets/gloves.webp",
     featured: false,
   },
   {
@@ -44,7 +44,7 @@ const products = [
     description: "Lightweight protection without sacrificing mobility",
     price: 179.99,
     category: "protective",
-    image: "./assets/shoulder.webp",
+    image: "assets/shoulder.webp",
     featured: false,
   },
   {
@@ -53,7 +53,7 @@ const products = [
     description: "Set of 6 official regulation lacrosse balls",
     price: 29.99,
     category: "accessories",
-    image: "./assets/balls.webp",
+    image: "assets/balls.webp",
     featured: false,
   },
 ];
