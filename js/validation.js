@@ -71,7 +71,7 @@ function handleLoginSubmit(event) {
   if (isValid) {
     // Simulate successful login
     alert("Login successful! Welcome back.");
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   }
 }
 
@@ -317,7 +317,7 @@ function handleCheckoutSubmit(event) {
     // Simulate successful order
     alert("Order placed successfully! Thank you for your purchase.");
     clearCart();
-    window.location.href = "index.html";
+    window.location.href = "../index.html";
   }
 }
 
