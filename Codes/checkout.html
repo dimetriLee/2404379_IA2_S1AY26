@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Checkout - Complete your purchase" />
+    <title>Checkout - Face Off</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <!-- Skip to main content link for screen readers -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Navigation -->
+    <header role="banner">
+      <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container">
+          <a href="index.html" class="nav-brand">
+            <img
+              src="../assets/logo.png"
+              alt="Face Off - Lacrosse Equipment"
+              class="logo"
+            />
+          </a>
+
+          <button
+            class="mobile-toggle"
+            id="mobileToggle"
+            aria-label="Toggle navigation"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li>
+              <a href="cart.html" class="cart-link">
+                Cart (<span id="cartCount">0</span>)
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Checkout Page Content -->
+    <main class="checkout-page">
+      <div class="container">
+        <h1 class="page-title">Checkout</h1>
+
+        <div class="checkout-container">
+          <!-- Checkout Form -->
+          <section
+            class="checkout-form"
+            role="region"
+            aria-labelledby="page-title"
+          >
+            <form id="checkoutForm" novalidate aria-label="Checkout form">
+              <!-- Shipping Information -->
+              <fieldset class="form-section">
+                <legend>Shipping Information</legend>
+
+                <div class="form-group">
+                  <label for="fullName">Full Name *</label>
+                  <input
+                    type="text"
+                    id="fullName"
+                    name="fullName"
+                    required
+                    placeholder="John Doe"
+                    class="form-control"
+                    autocomplete="name"
+                    aria-describedby="fullNameError"
+                    aria-required="true"
+                  />
+                  <span
+                    class="error-message"
+                    id="fullNameError"
+                    role="alert"
+                  ></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Email Address *</label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    placeholder="john@example.com"
+                    class="form-control"
+                    autocomplete="email"
+                    aria-describedby="emailError"
+                    aria-required="true"
+                  />
+                  <span
+                    class="error-message"
+                    id="emailError"
+                    role="alert"
+                  ></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="phone">Phone Number *</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    required
+                    placeholder="(555) 123-4567"
+                    class="form-control"
+                    autocomplete="tel"
+                    aria-describedby="phoneError"
+                    aria-required="true"
+                  />
+                  <span
+                    class="error-message"
+                    id="phoneError"
+                    role="alert"
+                  ></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="address">Street Address *</label>
+                  <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    required
+                    placeholder="123 Main St"
+                    class="form-control"
+                    autocomplete="street-address"
+                    aria-describedby="addressError"
+                    aria-required="true"
+                  />
+                  <span
+                    class="error-message"
+                    id="addressError"
+                    role="alert"
+                  ></span>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="city">City *</label>
+                    <input
+                      type="text"
+                      id="city"
+                      name="city"
+                      required
+                      placeholder="New York"
+                      class="form-control"
+                    />
+                    <span class="error-message" id="cityError"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="state">State *</label>
+                    <input
+                      type="text"
+                      id="state"
+                      name="state"
+                      required
+                      placeholder="NY"
+                      class="form-control"
+                    />
+                    <span class="error-message" id="stateError"></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="zip">ZIP Code *</label>
+                    <input
+                      type="text"
+                      id="zip"
+                      name="zip"
+                      required
+                      placeholder="10001"
+                      class="form-control"
+                    />
+                    <span class="error-message" id="zipError"></span>
+                  </div>
+                </div>
+              </fieldset>
+
+              <!-- Payment Information -->
+              <fieldset class="form-section">
+                <legend>Payment Information</legend>
+
+                <div class="form-group">
+                  <label for="cardName">Name on Card *</label>
+                  <input
+                    type="text"
+                    id="cardName"
+                    name="cardName"
+                    required
+                    placeholder="John Doe"
+                    class="form-control"
+                    autocomplete="cc-name"
+                    aria-describedby="cardNameError"
+                    aria-required="true"
+                  />
+                  <span
+                    class="error-message"
+                    id="cardNameError"
+                    role="alert"
+                  ></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="cardNumber">Card Number *</label>
+                  <input
+                    type="text"
+                    id="cardNumber"
+                    name="cardNumber"
+                    required
+                    placeholder="1234 5678 9012 3456"
+                    class="form-control"
+                    maxlength="19"
+                    autocomplete="cc-number"
+                    aria-describedby="cardNumberError"
+                    aria-required="true"
+                    inputmode="numeric"
+                  />
+                  <span
+                    class="error-message"
+                    id="cardNumberError"
+                    role="alert"
+                  ></span>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="expiry">Expiry Date *</label>
+                    <input
+                      type="text"
+                      id="expiry"
+                      name="expiry"
+                      required
+                      placeholder="MM/YY"
+                      class="form-control"
+                      maxlength="5"
+                      autocomplete="cc-exp"
+                      aria-describedby="expiryError"
+                      aria-required="true"
+                      inputmode="numeric"
+                    />
+                    <span
+                      class="error-message"
+                      id="expiryError"
+                      role="alert"
+                    ></span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="cvv">CVV *</label>
+                    <input
+                      type="text"
+                      id="cvv"
+                      name="cvv"
+                      required
+                      placeholder="123"
+                      class="form-control"
+                      maxlength="4"
+                      autocomplete="cc-csc"
+                      aria-describedby="cvvError"
+                      aria-required="true"
+                      inputmode="numeric"
+                    />
+                    <span
+                      class="error-message"
+                      id="cvvError"
+                      role="alert"
+                    ></span>
+                  </div>
+                </div>
+              </fieldset>
+
+              <button type="submit" class="btn btn-primary btn-large btn-block">
+                Complete Order
+              </button>
+            </form>
+          </section>
+
+          <!-- Order Summary -->
+          <aside
+            class="order-summary"
+            role="complementary"
+            aria-labelledby="order-summary-title"
+          >
+            <h2 id="order-summary-title">Order Summary</h2>
+
+            <div
+              id="checkoutItems"
+              class="checkout-items"
+              role="list"
+              aria-label="Items in order"
+            >
+              <!-- Order items will be displayed here -->
+            </div>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-row">
+              <span>Subtotal:</span>
+              <span id="checkoutSubtotal">$0.00</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Tax (10%):</span>
+              <span id="checkoutTax">$0.00</span>
+            </div>
+
+            <div class="summary-row">
+              <span>Shipping:</span>
+              <span id="checkoutShipping">$10.00</span>
+            </div>
+
+            <div class="summary-divider"></div>
+
+            <div class="summary-row summary-total">
+              <span>Total:</span>
+              <span id="checkoutTotal">$0.00</span>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo" id="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Face Off</h3>
+            <p>Your premier destination for lacrosse equipment and gear.</p>
+          </div>
+
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <nav aria-label="Footer navigation">
+              <ul>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="cart.html">Shopping Cart</a></li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="footer-section">
+            <h4>Connect</h4>
+            <p>
+              Email:
+              <a href="mailto:dimetrialee@students.utech.edu.jm"
+                >dimetrialee@students.utech.edu.jm</a
+              >
+            </p>
+            <p>Phone: <a href="tel:+18768629958">1 (876)862-9958</a></p>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Face Off Lacrosse Equipment. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/cart.js"></script>
+    <script src="../js/validation.js"></script>
+  </body>
+</html>

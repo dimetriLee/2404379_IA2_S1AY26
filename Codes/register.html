@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Create a Face Off account" />
+    <title>Register - Face Off</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <!-- Skip to main content link for screen readers -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Navigation -->
+    <header role="banner">
+      <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container">
+          <a href="index.html" class="nav-brand">
+            <img
+              src="../assets/logo.png"
+              alt="Face Off - Lacrosse Equipment"
+              class="logo"
+            />
+          </a>
+
+          <button
+            class="mobile-toggle"
+            id="mobileToggle"
+            aria-label="Toggle navigation"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li>
+              <a href="cart.html" class="cart-link">
+                Cart (<span id="cartCount">0</span>)
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Register Page Content -->
+    <main class="auth-page">
+      <div class="container">
+        <div class="auth-container">
+          <div class="auth-box auth-box-wide">
+            <h1>Create Account</h1>
+            <p class="auth-subtitle">
+              Join Face Off to get exclusive deals and updates
+            </p>
+
+            <form id="registerForm" novalidate aria-label="Registration form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="firstName">First Name *</label>
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    required
+                    placeholder="John"
+                    class="form-control"
+                    autocomplete="given-name"
+                    aria-describedby="firstNameError"
+                    aria-required="true"
+                  />
+                  <span
+                    class="error-message"
+                    id="firstNameError"
+                    role="alert"
+                  ></span>
+                </div>
+
+                <div class="form-group">
+                  <label for="lastName">Last Name *</label>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    required
+                    placeholder="Doe"
+                    class="form-control"
+                    autocomplete="family-name"
+                    aria-describedby="lastNameError"
+                    aria-required="true"
+                  />
+                  <span
+                    class="error-message"
+                    id="lastNameError"
+                    role="alert"
+                  ></span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="registerEmail">Email Address *</label>
+                <input
+                  type="email"
+                  id="registerEmail"
+                  name="registerEmail"
+                  required
+                  placeholder="john@example.com"
+                  class="form-control"
+                  autocomplete="email"
+                  aria-describedby="registerEmailError"
+                  aria-required="true"
+                />
+                <span
+                  class="error-message"
+                  id="registerEmailError"
+                  role="alert"
+                ></span>
+              </div>
+
+              <div class="form-group">
+                <label for="registerPassword">Password *</label>
+                <input
+                  type="password"
+                  id="registerPassword"
+                  name="registerPassword"
+                  required
+                  placeholder="Minimum 8 characters"
+                  class="form-control"
+                  autocomplete="new-password"
+                  aria-describedby="registerPasswordError"
+                  aria-required="true"
+                />
+                <span
+                  class="error-message"
+                  id="registerPasswordError"
+                  role="alert"
+                ></span>
+              </div>
+
+              <div class="form-group">
+                <label for="confirmPassword">Confirm Password *</label>
+                <input
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  required
+                  placeholder="Re-enter password"
+                  class="form-control"
+                  autocomplete="new-password"
+                  aria-describedby="confirmPasswordError"
+                  aria-required="true"
+                />
+                <span
+                  class="error-message"
+                  id="confirmPasswordError"
+                  role="alert"
+                ></span>
+              </div>
+
+              <div class="form-check">
+                <input
+                  type="checkbox"
+                  id="agreeTerms"
+                  name="agreeTerms"
+                  required
+                />
+                <label for="agreeTerms"
+                  >I agree to the <a href="#">Terms and Conditions</a> *</label
+                >
+                <span class="error-message" id="agreeTermsError"></span>
+              </div>
+
+              <div class="form-check">
+                <input type="checkbox" id="newsletter" name="newsletter" />
+                <label for="newsletter"
+                  >Subscribe to our newsletter for exclusive offers</label
+                >
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block">
+                Create Account
+              </button>
+            </form>
+
+            <div class="auth-footer">
+              <p>
+                Already have an account? <a href="login.html">Login here</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo" id="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Face Off</h3>
+            <p>Your premier destination for lacrosse equipment and gear.</p>
+          </div>
+
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <nav aria-label="Footer navigation">
+              <ul>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="cart.html">Shopping Cart</a></li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="footer-section">
+            <h4>Connect</h4>
+            <p>
+              Email:
+              <a href="mailto:dimetrialee@students.utech.edu.jm"
+                >dimetrialee@students.utech.edu.jm</a
+              >
+            </p>
+            <p>Phone: <a href="tel:+18768629958">1 (876)862-9958</a></p>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Face Off Lacrosse Equipment. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/validation.js"></script>
+  </body>
+</html>
