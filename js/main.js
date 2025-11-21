@@ -229,6 +229,29 @@ function addToCart(product) {
   alert(product.name + " added to cart!");
 }
 
+// IA#2: Function to add item to cart from HTML (for hardcoded products)
+function addToCartFromHTML(id, name, price, image) {
+  let cart = getCart();
+
+  const existingItem = cart.find((item) => item.id === id);
+
+  if (existingItem) {
+    existingItem.quantity += 1;
+  } else {
+    cart.push({
+      id: id,
+      name: name,
+      price: price,
+      image: image,
+      quantity: 1,
+    });
+  }
+
+  localStorage.setItem("laxproCart", JSON.stringify(cart));
+  updateCartCount(cart);
+  alert(name + " added to cart!");
+}
+
 // IA#2: Function to setup product filters
 function setupFilters() {
   const categoryFilter = document.getElementById("categoryFilter");

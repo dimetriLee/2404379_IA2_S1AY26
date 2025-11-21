@@ -80,7 +80,74 @@
             role="list"
             aria-label="Featured products"
           >
-            <!-- Products will be loaded via JavaScript -->
+            <!-- Featured Product 1 -->
+            <div class="product-card">
+              <img
+                src="assets/attackStick.webp"
+                alt="Pro Elite Attack Stick"
+                class="product-image"
+              />
+              <div class="product-info">
+                <span class="product-category">Sticks</span>
+                <h3 class="product-name">Pro Elite Attack Stick</h3>
+                <p class="product-description">
+                  Premium attack lacrosse stick with carbon fiber shaft
+                </p>
+                <div class="product-price">$299.99</div>
+                <button
+                  class="btn btn-primary btn-block"
+                  onclick="addToCartFromHTML(1, 'Pro Elite Attack Stick', 299.99, 'assets/attackStick.webp')"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <!-- Featured Product 2 -->
+            <div class="product-card">
+              <img
+                src="assets/defenseStick.webp"
+                alt="Defender Pro Stick"
+                class="product-image"
+              />
+              <div class="product-info">
+                <span class="product-category">Sticks</span>
+                <h3 class="product-name">Defender Pro Stick</h3>
+                <p class="product-description">
+                  Heavy-duty defense stick for maximum control
+                </p>
+                <div class="product-price">$249.99</div>
+                <button
+                  class="btn btn-primary btn-block"
+                  onclick="addToCartFromHTML(2, 'Defender Pro Stick', 249.99, 'assets/defenseStick.webp')"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
+
+            <!-- Featured Product 3 -->
+            <div class="product-card">
+              <img
+                src="assets/helmet.jpg"
+                alt="Elite Protective Helmet"
+                class="product-image"
+              />
+              <div class="product-info">
+                <span class="product-category">Protective</span>
+                <h3 class="product-name">Elite Protective Helmet</h3>
+                <p class="product-description">
+                  Advanced protection with superior ventilation
+                </p>
+                <div class="product-price">$199.99</div>
+                <button
+                  class="btn btn-primary btn-block"
+                  onclick="addToCartFromHTML(3, 'Elite Protective Helmet', 199.99, 'assets/helmet.jpg')"
+                >
+                  Add to Cart
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
