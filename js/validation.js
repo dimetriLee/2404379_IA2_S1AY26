@@ -1,6 +1,4 @@
-// ====================================
 // Validation.js - Form Validation
-// ====================================
 
 // Initialize form validation when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
@@ -35,9 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// ====================================
 // Login Form Validation
-// ====================================
 
 function handleLoginSubmit(event) {
   event.preventDefault();
