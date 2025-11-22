@@ -1,6 +1,16 @@
-// ====================================
 // Cart.js - Shopping Cart Functionality
-// ====================================
+
+// Function to get correct image path based on current location
+function getImagePath(filename) {
+  // Check if we're in the Codes folder or root
+  const isInCodesFolder = window.location.pathname.includes("/Codes/");
+
+  // Return path relative to current location
+  if (isInCodesFolder) {
+    return "../assets/" + filename;
+  }
+  return "assets/" + filename;
+}
 
 // Initialize cart page when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
@@ -52,7 +62,9 @@ function createCartItemElement(item) {
   const itemTotal = item.price * item.quantity;
 
   cartItem.innerHTML = `
-        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+        <img src="${getImagePath(item.image)}" alt="${
+    item.name
+  }" class="cart-item-image">
         
         <div class="cart-item-details">
             <h3 class="cart-item-name">${item.name}</h3>

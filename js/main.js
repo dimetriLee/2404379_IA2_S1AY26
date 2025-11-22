@@ -211,11 +211,13 @@ function addToCart(product) {
   if (existingItem) {
     existingItem.quantity += 1;
   } else {
+    // Extract just the filename from the path (e.g., "assets/helmet.jpg" -> "helmet.jpg")
+    const filename = product.image.split("/").pop();
     cart.push({
       id: product.id,
       name: product.name,
       price: product.price,
-      image: getImagePath(product.image),
+      image: filename,
       quantity: 1,
     });
   }
