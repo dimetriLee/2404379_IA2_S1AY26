@@ -40,7 +40,7 @@
             <li><a href="login.html">Login</a></li>
             <li>
               <a href="cart.html" class="cart-link active">
-                Cart (<span id="cartCount">0</span>)
+                Cart (<span id="cartCount">4</span>)
               </a>
             </li>
           </ul>
@@ -61,7 +61,80 @@
             aria-label="Shopping cart items"
             role="region"
           >
-            <!-- Cart items will be loaded dynamically -->
+            <!-- Cart Item 1 -->
+            <div class="cart-item">
+              <img
+                src="../assets/attackStick.webp"
+                alt="Pro Elite Attack Stick"
+                class="cart-item-image"
+              />
+              <div class="cart-item-details">
+                <h3 class="cart-item-name">Pro Elite Attack Stick</h3>
+                <p class="cart-item-price">$299.99</p>
+                <div class="cart-item-controls">
+                  <div class="quantity-control">
+                    <button class="quantity-btn" aria-label="Decrease quantity">
+                      -
+                    </button>
+                    <span class="quantity-display">1</span>
+                    <button class="quantity-btn" aria-label="Increase quantity">
+                      +
+                    </button>
+                  </div>
+                  <button class="remove-btn">Remove</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cart Item 2 -->
+            <div class="cart-item">
+              <img
+                src="../assets/helmet.jpg"
+                alt="Elite Protective Helmet"
+                class="cart-item-image"
+              />
+              <div class="cart-item-details">
+                <h3 class="cart-item-name">Elite Protective Helmet</h3>
+                <p class="cart-item-price">$199.99</p>
+                <div class="cart-item-controls">
+                  <div class="quantity-control">
+                    <button class="quantity-btn" aria-label="Decrease quantity">
+                      -
+                    </button>
+                    <span class="quantity-display">1</span>
+                    <button class="quantity-btn" aria-label="Increase quantity">
+                      +
+                    </button>
+                  </div>
+                  <button class="remove-btn">Remove</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cart Item 3 -->
+            <div class="cart-item">
+              <img
+                src="../assets/gloves.webp"
+                alt="Pro Grip Gloves"
+                class="cart-item-image"
+              />
+              <div class="cart-item-details">
+                <h3 class="cart-item-name">Pro Grip Gloves</h3>
+                <p class="cart-item-price">$149.99</p>
+                <div class="cart-item-controls">
+                  <div class="quantity-control">
+                    <button class="quantity-btn" aria-label="Decrease quantity">
+                      -
+                    </button>
+                    <span class="quantity-display">2</span>
+                    <button class="quantity-btn" aria-label="Increase quantity">
+                      +
+                    </button>
+                  </div>
+                  <button class="remove-btn">Remove</button>
+                </div>
+              </div>
+            </div>
           </section>
 
           <!-- Cart Summary Section -->
@@ -74,24 +147,24 @@
 
             <div class="summary-row">
               <span>Subtotal:</span>
-              <span id="subtotal" aria-label="Subtotal amount">$0.00</span>
+              <span id="subtotal" aria-label="Subtotal amount">$799.96</span>
             </div>
 
             <div class="summary-row">
               <span>Tax (10%):</span>
-              <span id="tax">$0.00</span>
+              <span id="tax">$80.00</span>
             </div>
 
             <div class="summary-row">
               <span>Shipping:</span>
-              <span id="shipping">$10.00</span>
+              <span id="shipping">$15.00</span>
             </div>
 
             <div class="summary-divider"></div>
 
             <div class="summary-row summary-total">
               <span>Total:</span>
-              <span id="total">$0.00</span>
+              <span id="total">$894.96</span>
             </div>
 
             <a href="checkout.html" class="btn btn-primary btn-block"
