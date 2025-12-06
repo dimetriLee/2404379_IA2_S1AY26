@@ -10,6 +10,7 @@ const products = [
     category: "sticks",
     image: "assets/attackStick.webp",
     featured: true,
+    discount: 10,
   },
   {
     id: 2,
@@ -19,6 +20,7 @@ const products = [
     category: "sticks",
     image: "assets/defenseStick.webp",
     featured: true,
+    discount: 0,
   },
   {
     id: 3,
@@ -28,6 +30,7 @@ const products = [
     category: "protective",
     image: "assets/helmet.jpg",
     featured: true,
+    discount: 15,
   },
   {
     id: 4,
@@ -37,6 +40,7 @@ const products = [
     category: "protective",
     image: "assets/gloves.webp",
     featured: false,
+    discount: 5,
   },
   {
     id: 5,
@@ -46,6 +50,7 @@ const products = [
     category: "protective",
     image: "assets/shoulder.webp",
     featured: false,
+    discount: 20,
   },
   {
     id: 6,
@@ -55,19 +60,266 @@ const products = [
     category: "accessories",
     image: "assets/balls.webp",
     featured: false,
+    discount: 0,
   },
 ];
+
+// ====================================
+// Requirement 2b: Store Products in localStorage as AllProducts
+// ====================================
+
+/**
+ * Initialize products in localStorage
+ * Stores the products array to localStorage with key "AllProducts"
+ */
+function initializeProducts() {
+  // Check if products already exist in localStorage
+  const storedProducts = localStorage.getItem("AllProducts");
+
+  if (!storedProducts) {
+    // Products don't exist yet - store them
+    localStorage.setItem("AllProducts", JSON.stringify(products));
+    console.log("Products initialized in localStorage as 'AllProducts'");
+  } else {
+    console.log("Products already exist in localStorage");
+  }
+}
+
+/**
+ * Get products from localStorage
+ * @returns {array} - Array of product objects
+ */
+function getProductsFromStorage() {
+  const storedProducts = localStorage.getItem("AllProducts");
+  return storedProducts ? JSON.parse(storedProducts) : products;
+}
+
+/**
+ * Update a product in localStorage
+ * @param {number} productId - ID of product to update
+ * @param {object} updatedData - Updated product data
+ */
+function updateProduct(productId, updatedData) {
+  let allProducts = getProductsFromStorage();
+  const productIndex = allProducts.findIndex((p) => p.id === productId);
+
+  if (productIndex !== -1) {
+    allProducts[productIndex] = {
+      ...allProducts[productIndex],
+      ...updatedData,
+    };
+    localStorage.setItem("AllProducts", JSON.stringify(allProducts));
+    console.log(`Product ${productId} updated in localStorage`);
+  }
+}
+
+/**
+ * Add a new product to localStorage
+ * @param {object} newProduct - New product object
+ */
+function addProduct(newProduct) {
+  let allProducts = getProductsFromStorage();
+  allProducts.push(newProduct);
+  localStorage.setItem("AllProducts", JSON.stringify(allProducts));
+  console.log("New product added to localStorage");
+}
+
+// ====================================
+// Helper Functions for Discounts
+// ====================================
+
+function calculateDiscountedPrice(price, discount) {
+  if (!discount || discount === 0) {
+    return price;
+  }
+  return price - (price * discount) / 100;
+}
+
+function calculateDiscountAmount(price, discount) {
+  if (!discount || discount === 0) {
+    return 0;
+  }
+  return (price * discount) / 100;
+}
+
+// ====================================
+// User Session Management
+// ====================================
+
+/**
+ * Check if user is logged in
+ * @returns {boolean}
+ */
+function isUserLoggedIn() {
+  return sessionStorage.getItem("isLoggedIn") === "true";
+}
+
+/**
+ * Get logged in user data
+ * @returns {object|null}
+ */
+function getLoggedInUser() {
+  const userJSON = sessionStorage.getItem("loggedInUser");
+  return userJSON ? JSON.parse(userJSON) : null;
+}
+
+/**
+ * Get logged in user's TRN
+ * @returns {string|null}
+ */
+function getLoggedInUserTRN() {
+  const user = getLoggedInUser();
+  return user ? user.trn : null;
+}
+
+// ====================================
+// Cart Management - Integrated with User Accounts
+// ====================================
+
+/**
+ * Get cart from logged in user's account or temporary cart
+ * @returns {array}
+ */
+function getCart() {
+  if (isUserLoggedIn()) {
+    // User is logged in - get cart from their RegistrationData
+    const userTRN = getLoggedInUserTRN();
+    const registrationData =
+      JSON.parse(localStorage.getItem("RegistrationData")) || [];
+    const user = registrationData.find((u) => u.trn === userTRN);
+
+    if (user && user.cart) {
+      // Cart is stored as object with items array
+      return user.cart.items || [];
+    }
+    return [];
+  } else {
+    // User not logged in - use temporary cart
+    const cartData = localStorage.getItem("tempCart");
+    return cartData ? JSON.parse(cartData) : [];
+  }
+}
+
+/**
+ * Save cart to logged in user's account or temporary storage
+ * @param {array} cart
+ */
+function saveCart(cart) {
+  if (isUserLoggedIn()) {
+    // User is logged in - save to their RegistrationData
+    const userTRN = getLoggedInUserTRN();
+    const registrationData =
+      JSON.parse(localStorage.getItem("RegistrationData")) || [];
+    const userIndex = registrationData.findIndex((u) => u.trn === userTRN);
+
+    if (userIndex !== -1) {
+      // Update user's cart
+      registrationData[userIndex].cart = {
+        items: cart,
+        lastUpdated: new Date().toISOString(),
+      };
+
+      localStorage.setItem(
+        "RegistrationData",
+        JSON.stringify(registrationData)
+      );
+
+      // Also update session storage
+      sessionStorage.setItem(
+        "loggedInUser",
+        JSON.stringify(registrationData[userIndex])
+      );
+    }
+  } else {
+    // User not logged in - save to temporary cart
+    localStorage.setItem("tempCart", JSON.stringify(cart));
+  }
+}
+
+/**
+ * Merge temporary cart with user's cart on login
+ * @param {string} userTRN
+ */
+function mergeTemporaryCart(userTRN) {
+  const tempCart = localStorage.getItem("tempCart");
+
+  if (tempCart) {
+    const tempItems = JSON.parse(tempCart);
+
+    if (tempItems.length > 0) {
+      // Get user's existing cart
+      const registrationData =
+        JSON.parse(localStorage.getItem("RegistrationData")) || [];
+      const userIndex = registrationData.findIndex((u) => u.trn === userTRN);
+
+      if (userIndex !== -1) {
+        const userCart = registrationData[userIndex].cart?.items || [];
+
+        // Merge carts - add quantities if item exists, otherwise add new item
+        tempItems.forEach((tempItem) => {
+          const existingItem = userCart.find((item) => item.id === tempItem.id);
+          if (existingItem) {
+            existingItem.quantity += tempItem.quantity;
+          } else {
+            userCart.push(tempItem);
+          }
+        });
+
+        // Save merged cart
+        registrationData[userIndex].cart = {
+          items: userCart,
+          lastUpdated: new Date().toISOString(),
+        };
+
+        localStorage.setItem(
+          "RegistrationData",
+          JSON.stringify(registrationData)
+        );
+        sessionStorage.setItem(
+          "loggedInUser",
+          JSON.stringify(registrationData[userIndex])
+        );
+      }
+    }
+
+    // Clear temporary cart
+    localStorage.removeItem("tempCart");
+  }
+}
+
+/**
+ * Clear cart for logged in user or temporary cart
+ */
+function clearCartData() {
+  if (isUserLoggedIn()) {
+    const userTRN = getLoggedInUserTRN();
+    const registrationData =
+      JSON.parse(localStorage.getItem("RegistrationData")) || [];
+    const userIndex = registrationData.findIndex((u) => u.trn === userTRN);
+
+    if (userIndex !== -1) {
+      registrationData[userIndex].cart = {
+        items: [],
+        lastUpdated: new Date().toISOString(),
+      };
+      localStorage.setItem(
+        "RegistrationData",
+        JSON.stringify(registrationData)
+      );
+      sessionStorage.setItem(
+        "loggedInUser",
+        JSON.stringify(registrationData[userIndex])
+      );
+    }
+  } else {
+    localStorage.removeItem("tempCart");
+  }
+}
 
 // Function to initialize cart count on page load
 function initializeCartCount() {
   const cart = getCart();
   updateCartCount(cart);
-}
-
-// Function to get cart from localStorage
-function getCart() {
-  const cartData = localStorage.getItem("laxproCart");
-  return cartData ? JSON.parse(cartData) : [];
 }
 
 // Function to update cart count in navigation
@@ -90,6 +342,9 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Initialize products in localStorage (Requirement 2b)
+  initializeProducts();
+
   // Initialize cart count on all pages
   initializeCartCount();
 
@@ -110,7 +365,9 @@ document.addEventListener("DOMContentLoaded", function () {
 // Function to load featured products on homepage
 function loadFeaturedProducts() {
   const featuredGrid = document.getElementById("featuredGrid");
-  const featuredProducts = products.filter((p) => p.featured);
+  // Get products from localStorage instead of hardcoded array
+  const allProducts = getProductsFromStorage();
+  const featuredProducts = allProducts.filter((p) => p.featured);
 
   featuredGrid.innerHTML = "";
 
@@ -121,20 +378,23 @@ function loadFeaturedProducts() {
 }
 
 // Function to load all products on products page
-function loadProducts(filteredProducts = products) {
+function loadProducts(filteredProducts = null) {
   const productGrid = document.getElementById("productGrid");
 
   if (!productGrid) return;
 
+  // Get products from localStorage if no filtered products provided
+  const productsToDisplay = filteredProducts || getProductsFromStorage();
+
   productGrid.innerHTML = "";
 
-  if (filteredProducts.length === 0) {
+  if (productsToDisplay.length === 0) {
     productGrid.innerHTML =
       '<p style="text-align: center; grid-column: 1/-1;">No products found.</p>';
     return;
   }
 
-  filteredProducts.forEach((product) => {
+  productsToDisplay.forEach((product) => {
     const productCard = createProductCard(product);
     productGrid.appendChild(productCard);
   });
@@ -168,6 +428,14 @@ function createProductCard(product) {
   category.textContent =
     product.category.charAt(0).toUpperCase() + product.category.slice(1);
 
+  // Add discount badge if product has a discount
+  if (product.discount && product.discount > 0) {
+    const discountBadge = document.createElement("span");
+    discountBadge.className = "product-discount-badge";
+    discountBadge.textContent = `-${product.discount}% OFF`;
+    info.appendChild(discountBadge);
+  }
+
   const name = document.createElement("h3");
   name.className = "product-name";
   name.textContent = product.name;
@@ -176,9 +444,33 @@ function createProductCard(product) {
   description.className = "product-description";
   description.textContent = product.description;
 
-  const price = document.createElement("div");
-  price.className = "product-price";
-  price.textContent = "$" + product.price.toFixed(2);
+  // Price section with original and discounted price
+  const priceContainer = document.createElement("div");
+  priceContainer.className = "product-price-container";
+
+  if (product.discount && product.discount > 0) {
+    // Show original price with strikethrough
+    const originalPrice = document.createElement("span");
+    originalPrice.className = "product-original-price";
+    originalPrice.textContent = "$" + product.price.toFixed(2);
+    priceContainer.appendChild(originalPrice);
+
+    // Show discounted price
+    const discountedPrice = document.createElement("div");
+    discountedPrice.className = "product-price product-discounted-price";
+    const finalPrice = calculateDiscountedPrice(
+      product.price,
+      product.discount
+    );
+    discountedPrice.textContent = "$" + finalPrice.toFixed(2);
+    priceContainer.appendChild(discountedPrice);
+  } else {
+    // Show regular price
+    const price = document.createElement("div");
+    price.className = "product-price";
+    price.textContent = "$" + product.price.toFixed(2);
+    priceContainer.appendChild(price);
+  }
 
   const addButton = document.createElement("button");
   addButton.className = "btn btn-primary btn-block";
@@ -192,7 +484,7 @@ function createProductCard(product) {
   info.appendChild(category);
   info.appendChild(name);
   info.appendChild(description);
-  info.appendChild(price);
+  info.appendChild(priceContainer);
   info.appendChild(addButton);
 
   card.appendChild(img);
@@ -213,26 +505,43 @@ function addToCart(product) {
   } else {
     // Extract just the filename from the path
     const filename = product.image.split("/").pop();
+
+    // Calculate final price after discount
+    const finalPrice = calculateDiscountedPrice(
+      product.price,
+      product.discount || 0
+    );
+    const discountAmount = calculateDiscountAmount(
+      product.price,
+      product.discount || 0
+    );
+
     cart.push({
       id: product.id,
       name: product.name,
       price: product.price,
+      discount: product.discount || 0,
+      discountAmount: discountAmount,
+      finalPrice: finalPrice,
       image: filename,
       quantity: 1,
     });
   }
 
-  // Save cart to localStorage
-  localStorage.setItem("laxproCart", JSON.stringify(cart));
-
+  // Save cart using new integrated function
+  saveCart(cart);
   updateCartCount(cart);
 
   // Show success message
-  alert(product.name + " added to cart!");
+  let message = product.name + " added to cart!";
+  if (product.discount && product.discount > 0) {
+    message += ` (${product.discount}% discount applied!)`;
+  }
+  alert(message);
 }
 
 // Function to add item to cart from HTML (for hardcoded products)
-function addToCartFromHTML(id, name, price, image) {
+function addToCartFromHTML(id, name, price, image, discount = 0) {
   let cart = getCart();
 
   const existingItem = cart.find((item) => item.id === id);
@@ -240,18 +549,29 @@ function addToCartFromHTML(id, name, price, image) {
   if (existingItem) {
     existingItem.quantity += 1;
   } else {
+    const finalPrice = calculateDiscountedPrice(price, discount);
+    const discountAmount = calculateDiscountAmount(price, discount);
+
     cart.push({
       id: id,
       name: name,
       price: price,
+      discount: discount,
+      discountAmount: discountAmount,
+      finalPrice: finalPrice,
       image: image,
       quantity: 1,
     });
   }
 
-  localStorage.setItem("laxproCart", JSON.stringify(cart));
+  saveCart(cart);
   updateCartCount(cart);
-  alert(name + " added to cart!");
+
+  let message = name + " added to cart!";
+  if (discount > 0) {
+    message += ` (${discount}% discount applied!)`;
+  }
+  alert(message);
 }
 
 // Function to setup product filters
@@ -273,7 +593,8 @@ function applyFilters() {
   const categoryFilter = document.getElementById("categoryFilter");
   const sortFilter = document.getElementById("sortFilter");
 
-  let filteredProducts = [...products];
+  // Get products from localStorage
+  let filteredProducts = [...getProductsFromStorage()];
 
   // Control structure - filter by category
   const selectedCategory = categoryFilter.value;
@@ -302,72 +623,14 @@ function applyFilters() {
   loadProducts(filteredProducts);
 }
 
-function calculateAge(dob) {
-  if (!dob) return 0; // Returns 0 if DOB is missing, ensuring it lands in the 'Other' group
-  const birthDate = new Date(dob);
-  const today = new Date();
-
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const monthDifference = today.getMonth() - birthDate.getMonth();
-
-  if (
-    monthDifference < 0 ||
-    (monthDifference === 0 && today.getDate() < birthDate.getDate())
-  ) {
-    age--;
-  }
-  return age;
-}
-
-/**
- * Helper function to categorize an age into a required group.
- * Ensures all possible ages are assigned a category.
- */
-function getAgeGroup(age) {
-  if (age >= 18 && age <= 25) {
-    return "18-25";
-  } else if (age >= 26 && age <= 35) {
-    return "26-35";
-  } else if (age >= 36 && age <= 50) {
-    return "36-50";
-  } else if (age > 50) {
-    return "50+";
-  } else {
-    // This captures ages 0-17 and any other edge case from calculateAge (e.g., if dob was null/invalid)
-    return "Under 18 / Other";
-  }
-}
-
-/**
- * Helper function to dynamically render a bar chart using HTML/CSS.
- * (Extracted from original ShowUserFrequency for modularity)
- */
-function renderChart(elementId, counts, max, title) {
-  const container = document.getElementById(elementId);
-  if (!container) return; // Added safety check
-  let html = "";
-
-  for (const [key, count] of Object.entries(counts)) {
-    // Use max || 1 to prevent division by zero if max is 0
-    const percentage = (count / (max || 1)) * 100;
-    const label = key.charAt(0).toUpperCase() + key.slice(1);
-
-    html += `
-            <div class="bar-wrapper" role="listitem" aria-label="${label}: ${count} users">
-                <span class="bar-label">${label}:</span>
-                <div class="bar" style="width: ${percentage * 0.8}%;"></div> 
-                <span>${count}</span>
-            </div>
-        `;
-  }
-  container.innerHTML = html;
-}
-
 // =================================================================
 // Question 6. Additional Functionality: User Frequency and Invoices
 // =================================================================
 
-// shows freuqency of users
+/**
+ * 6a. ShowUserFrequency() - Displays user frequency based on Gender and Age Group
+ * This function calculates the counts and dynamically renders bar charts on the dashboard.
+ */
 function ShowUserFrequency() {
   // 1. Get Data
   const registrationData =
@@ -380,46 +643,92 @@ function ShowUserFrequency() {
     return;
   }
 
-  // Initialize counts, including the necessary 'Other' group
+  // Initialize counts
   const genderCounts = {};
   const ageCounts = {
     "18-25": 0,
     "26-35": 0,
     "36-50": 0,
     "50+": 0,
-    "Under 18 / Other": 0, // CRITICAL: Ensure this key exists for accurate counting
   };
+  let maxCount = 0; // To normalize bar chart lengths
 
   // 2. Process Data
   registrationData.forEach((user) => {
-    // --- Gender Count ---
-    const gender = (user.gender || "other").toLowerCase();
+    // --- Gender Count (Case-insensitive) ---
+    const gender = user.gender ? user.gender.toLowerCase() : "other";
     genderCounts[gender] = (genderCounts[gender] || 0) + 1;
 
     // --- Age Group Count ---
-    const age = calculateAge(user.dob); // Calculates age (e.g., 20)
-    const group = getAgeGroup(age); // Categorizes age (e.g., '18-25')
-    ageCounts[group]++;
+    const age = calculateAge(user.dateOfBirth || user.dob);
+
+    if (age >= 18 && age <= 25) {
+      ageCounts["18-25"]++;
+    } else if (age >= 26 && age <= 35) {
+      ageCounts["26-35"]++;
+    } else if (age >= 36 && age <= 50) {
+      ageCounts["36-50"]++;
+    } else if (age > 50) {
+      ageCounts["50+"]++;
+    }
   });
 
   // 3. Find max count for normalization (for visual bar length)
-  const allCounts = [
+  maxCount = Math.max(
     ...Object.values(genderCounts),
-    ...Object.values(ageCounts),
-  ];
-  let maxCount = Math.max(...allCounts, 1);
+    ...Object.values(ageCounts)
+  );
+  if (maxCount === 0) maxCount = 1; // Avoid division by zero
 
-  // 4. Render Charts (Assumes renderChart utility is defined and available)
+  // 4. Render Charts
   renderChart("genderChart", genderCounts, maxCount, "Gender");
   renderChart("ageChart", ageCounts, maxCount, "Age Group");
+
+  /**
+   * Helper function to calculate age from DOB (YYYY-MM-DD format).
+   */
+  function calculateAge(dob) {
+    if (!dob) return 0;
+    const birthDate = new Date(dob);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  /**
+   * Helper function to dynamically render a bar chart using HTML/CSS.
+   */
+  function renderChart(elementId, counts, max, title) {
+    const container = document.getElementById(elementId);
+    let html = "";
+
+    for (const [key, count] of Object.entries(counts)) {
+      const percentage = (count / max) * 100;
+      const label = key.charAt(0).toUpperCase() + key.slice(1);
+
+      html += `
+                <div class="bar-wrapper" role="listitem" aria-label="${label}: ${count} users">
+                    <span class="bar-label">${label}:</span>
+                    <div class="bar" style="width: ${
+                      percentage * 0.8
+                    }%;"></div> 
+                    <span>${count}</span>
+                </div>
+            `;
+    }
+    container.innerHTML = html;
+  }
 }
 
 /**
  * 6b. ShowInvoices() - Displays all invoices and allows searching by TRN.
- * ... (No changes required for this function) ...
+ * Results are logged to the console.
  */
 function ShowInvoices(searchTrn = null) {
-  // ... (content of ShowInvoices remains the same) ...
   const allInvoices = JSON.parse(localStorage.getItem("AllInvoices")) || [];
 
   console.log("=====================================");
@@ -448,7 +757,7 @@ function ShowInvoices(searchTrn = null) {
         Date: inv.date,
         TRN: inv.userTRN,
         Total: `$${inv.total.toFixed(2)}`,
-        Name: inv.shippingInfo ? inv.shippingInfo.fullName : "N/A", // Added safety check
+        Name: inv.shippingInfo.fullName,
       }))
     );
   } else {
@@ -460,10 +769,9 @@ function ShowInvoices(searchTrn = null) {
 
 /**
  * 6c. GetUserInvoices() - Displays all the invoices for a specific user based on TRN.
- * ... (No changes required for this function) ...
+ * Results are logged to the console, specifically from the RegistrationData object.
  */
 function GetUserInvoices(trn) {
-  // ... (content of GetUserInvoices remains the same) ...
   console.log("=====================================");
   console.log("6c. GetUserInvoices() - User Invoice History");
   console.log("=====================================");
@@ -499,17 +807,13 @@ function GetUserInvoices(trn) {
 }
 
 // =================================================================
-// DOM Content Loaded Handler (Modified to include Dashboard setup)
-// =================================================================
-
-// ... (DOMContentLoaded function remains the same) ...
-
-// =================================================================
-// DOM Content Loaded Handler (Modified to include Dashboard setup)
+// DOM Content Loaded Handler
 // =================================================================
 
 document.addEventListener("DOMContentLoaded", function () {
-  // ... existing initialization code ...
+  // Initialize products in localStorage (Requirement 2b)
+  initializeProducts();
+
   // Initialize cart count on all pages
   initializeCartCount();
 
@@ -533,24 +837,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Setup listener for GetUserInvoices form
     const getUserInvoicesForm = document.getElementById("getUserInvoicesForm");
-    getUserInvoicesForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const trn = document.getElementById("userTrnInput").value;
-      GetUserInvoices(trn);
-      alert(`Results for TRN ${trn} logged to console (F12).`);
-    });
+    if (getUserInvoicesForm) {
+      getUserInvoicesForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const trn = document.getElementById("userTrnInput").value;
+        GetUserInvoices(trn);
+        alert(`Results for TRN ${trn} logged to console (F12).`);
+      });
+    }
 
     // Setup listener for ShowInvoices form
     const showInvoicesForm = document.getElementById("showInvoicesForm");
-    showInvoicesForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      const trn = document.getElementById("allInvoicesTrnInput").value;
-      ShowInvoices(trn);
-      const message = trn
-        ? `Search results for TRN ${trn} logged to console (F12).`
-        : "All invoices logged to console (F12).";
-      alert(message);
-    });
+    if (showInvoicesForm) {
+      showInvoicesForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        const trn = document.getElementById("allInvoicesTrnInput").value;
+        ShowInvoices(trn);
+        const message = trn
+          ? `Search results for TRN ${trn} logged to console (F12).`
+          : "All invoices logged to console (F12).";
+        alert(message);
+      });
+    }
 
     // Initial log to guide the user
     console.log(
@@ -558,4 +866,3 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 });
-// ... rest of your existing functions (loadFeaturedProducts, getCart, etc.) ...
