@@ -302,14 +302,72 @@ function applyFilters() {
   loadProducts(filteredProducts);
 }
 
+function calculateAge(dob) {
+  if (!dob) return 0; // Returns 0 if DOB is missing, ensuring it lands in the 'Other' group
+  const birthDate = new Date(dob);
+  const today = new Date();
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDifference = today.getMonth() - birthDate.getMonth();
+
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < birthDate.getDate())
+  ) {
+    age--;
+  }
+  return age;
+}
+
+/**
+ * Helper function to categorize an age into a required group.
+ * Ensures all possible ages are assigned a category.
+ */
+function getAgeGroup(age) {
+  if (age >= 18 && age <= 25) {
+    return "18-25";
+  } else if (age >= 26 && age <= 35) {
+    return "26-35";
+  } else if (age >= 36 && age <= 50) {
+    return "36-50";
+  } else if (age > 50) {
+    return "50+";
+  } else {
+    // This captures ages 0-17 and any other edge case from calculateAge (e.g., if dob was null/invalid)
+    return "Under 18 / Other";
+  }
+}
+
+/**
+ * Helper function to dynamically render a bar chart using HTML/CSS.
+ * (Extracted from original ShowUserFrequency for modularity)
+ */
+function renderChart(elementId, counts, max, title) {
+  const container = document.getElementById(elementId);
+  if (!container) return; // Added safety check
+  let html = "";
+
+  for (const [key, count] of Object.entries(counts)) {
+    // Use max || 1 to prevent division by zero if max is 0
+    const percentage = (count / (max || 1)) * 100;
+    const label = key.charAt(0).toUpperCase() + key.slice(1);
+
+    html += `
+            <div class="bar-wrapper" role="listitem" aria-label="${label}: ${count} users">
+                <span class="bar-label">${label}:</span>
+                <div class="bar" style="width: ${percentage * 0.8}%;"></div> 
+                <span>${count}</span>
+            </div>
+        `;
+  }
+  container.innerHTML = html;
+}
+
 // =================================================================
 // Question 6. Additional Functionality: User Frequency and Invoices
 // =================================================================
 
-/**
- * 6a. ShowUserFrequency() - Displays user frequency based on Gender and Age Group
- * This function calculates the counts and dynamically renders bar charts on the dashboard.
- */
+// shows freuqency of users
 function ShowUserFrequency() {
   // 1. Get Data
   const registrationData =
@@ -322,93 +380,46 @@ function ShowUserFrequency() {
     return;
   }
 
-  // Initialize counts
+  // Initialize counts, including the necessary 'Other' group
   const genderCounts = {};
   const ageCounts = {
     "18-25": 0,
     "26-35": 0,
     "36-50": 0,
     "50+": 0,
+    "Under 18 / Other": 0, // CRITICAL: Ensure this key exists for accurate counting
   };
-  let maxCount = 0; // To normalize bar chart lengths
 
   // 2. Process Data
   registrationData.forEach((user) => {
-    // --- Gender Count (Case-insensitive) ---
-    const gender = user.gender ? user.gender.toLowerCase() : "other";
+    // --- Gender Count ---
+    const gender = (user.gender || "other").toLowerCase();
     genderCounts[gender] = (genderCounts[gender] || 0) + 1;
 
     // --- Age Group Count ---
-    const age = calculateAge(user.dob); // Assumes you have a calculateAge function
-
-    if (age >= 18 && age <= 25) {
-      ageCounts["18-25"]++;
-    } else if (age >= 26 && age <= 35) {
-      ageCounts["26-35"]++;
-    } else if (age >= 36 && age <= 50) {
-      ageCounts["36-50"]++;
-    } else if (age > 50) {
-      ageCounts["50+"]++;
-    }
+    const age = calculateAge(user.dob); // Calculates age (e.g., 20)
+    const group = getAgeGroup(age); // Categorizes age (e.g., '18-25')
+    ageCounts[group]++;
   });
 
   // 3. Find max count for normalization (for visual bar length)
-  maxCount = Math.max(
+  const allCounts = [
     ...Object.values(genderCounts),
-    ...Object.values(ageCounts)
-  );
-  if (maxCount === 0) maxCount = 1; // Avoid division by zero
+    ...Object.values(ageCounts),
+  ];
+  let maxCount = Math.max(...allCounts, 1);
 
-  // 4. Render Charts
+  // 4. Render Charts (Assumes renderChart utility is defined and available)
   renderChart("genderChart", genderCounts, maxCount, "Gender");
   renderChart("ageChart", ageCounts, maxCount, "Age Group");
-
-  /**
-   * Helper function to calculate age from DOB (YYYY-MM-DD format).
-   * NOTE: This is critical and assumes the DOB is stored correctly during registration.
-   */
-  function calculateAge(dob) {
-    if (!dob) return 0;
-    const birthDate = new Date(dob);
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const m = today.getMonth() - birthDate.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-      age--;
-    }
-    return age;
-  }
-
-  /**
-   * Helper function to dynamically render a bar chart using HTML/CSS.
-   */
-  function renderChart(elementId, counts, max, title) {
-    const container = document.getElementById(elementId);
-    let html = "";
-
-    for (const [key, count] of Object.entries(counts)) {
-      const percentage = (count / max) * 100;
-      const label = key.charAt(0).toUpperCase() + key.slice(1);
-
-      html += `
-                <div class="bar-wrapper" role="listitem" aria-label="${label}: ${count} users">
-                    <span class="bar-label">${label}:</span>
-                    <div class="bar" style="width: ${
-                      percentage * 0.8
-                    }%;"></div> 
-                    <span>${count}</span>
-                </div>
-            `;
-    }
-    container.innerHTML = html;
-  }
 }
 
 /**
  * 6b. ShowInvoices() - Displays all invoices and allows searching by TRN.
- * Results are logged to the console.
+ * ... (No changes required for this function) ...
  */
 function ShowInvoices(searchTrn = null) {
+  // ... (content of ShowInvoices remains the same) ...
   const allInvoices = JSON.parse(localStorage.getItem("AllInvoices")) || [];
 
   console.log("=====================================");
@@ -437,7 +448,7 @@ function ShowInvoices(searchTrn = null) {
         Date: inv.date,
         TRN: inv.userTRN,
         Total: `$${inv.total.toFixed(2)}`,
-        Name: inv.shippingInfo.fullName,
+        Name: inv.shippingInfo ? inv.shippingInfo.fullName : "N/A", // Added safety check
       }))
     );
   } else {
@@ -449,9 +460,10 @@ function ShowInvoices(searchTrn = null) {
 
 /**
  * 6c. GetUserInvoices() - Displays all the invoices for a specific user based on TRN.
- * Results are logged to the console, specifically from the RegistrationData object.
+ * ... (No changes required for this function) ...
  */
 function GetUserInvoices(trn) {
+  // ... (content of GetUserInvoices remains the same) ...
   console.log("=====================================");
   console.log("6c. GetUserInvoices() - User Invoice History");
   console.log("=====================================");
@@ -485,6 +497,12 @@ function GetUserInvoices(trn) {
     );
   }
 }
+
+// =================================================================
+// DOM Content Loaded Handler (Modified to include Dashboard setup)
+// =================================================================
+
+// ... (DOMContentLoaded function remains the same) ...
 
 // =================================================================
 // DOM Content Loaded Handler (Modified to include Dashboard setup)
