@@ -59,6 +59,9 @@
             </p>
 
             <form id="registerForm" novalidate aria-label="Registration form">
+              <!-- Question 1a.i: Registration form fields -->
+
+              <!-- Name Fields -->
               <div class="form-row">
                 <div class="form-group">
                   <label for="firstName">First Name *</label>
@@ -101,6 +104,61 @@
                 </div>
               </div>
 
+              <!-- Date of Birth -->
+              <div class="form-group">
+                <label for="dob">Date of Birth *</label>
+                <input
+                  type="date"
+                  id="dob"
+                  name="dob"
+                  required
+                  class="form-control"
+                  aria-describedby="dobError"
+                  aria-required="true"
+                />
+                <span class="error-message" id="dobError" role="alert"></span>
+              </div>
+
+              <!-- Gender -->
+              <div class="form-group">
+                <label for="gender">Gender *</label>
+                <select
+                  id="gender"
+                  name="gender"
+                  required
+                  class="form-control"
+                  aria-describedby="genderError"
+                  aria-required="true"
+                >
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+                <span
+                  class="error-message"
+                  id="genderError"
+                  role="alert"
+                ></span>
+              </div>
+
+              <!-- Contact Information -->
+              <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  required
+                  placeholder="(876) 123-4567"
+                  class="form-control"
+                  autocomplete="tel"
+                  aria-describedby="phoneError"
+                  aria-required="true"
+                />
+                <span class="error-message" id="phoneError" role="alert"></span>
+              </div>
+
               <div class="form-group">
                 <label for="registerEmail">Email Address *</label>
                 <input
@@ -121,6 +179,28 @@
                 ></span>
               </div>
 
+              <!-- TRN (Tax Registration Number) -->
+              <div class="form-group">
+                <label for="trn">Tax Registration Number (TRN) *</label>
+                <input
+                  type="text"
+                  id="trn"
+                  name="trn"
+                  required
+                  placeholder="000-000-000"
+                  class="form-control"
+                  maxlength="11"
+                  aria-describedby="trnError"
+                  aria-required="true"
+                />
+                <span class="error-message" id="trnError" role="alert"></span>
+                <small style="color: #666; font-size: 0.875rem"
+                  >Format: 000-000-000 (This will be used as your
+                  username)</small
+                >
+              </div>
+
+              <!-- Password Fields -->
               <div class="form-group">
                 <label for="registerPassword">Password *</label>
                 <input
@@ -161,6 +241,7 @@
                 ></span>
               </div>
 
+              <!-- Terms and Conditions -->
               <div class="form-check">
                 <input
                   type="checkbox"
@@ -174,6 +255,7 @@
                 <span class="error-message" id="agreeTermsError"></span>
               </div>
 
+              <!-- Newsletter -->
               <div class="form-check">
                 <input type="checkbox" id="newsletter" name="newsletter" />
                 <label for="newsletter"
@@ -181,9 +263,13 @@
                 >
               </div>
 
-              <button type="submit" class="btn btn-primary btn-block">
-                Create Account
-              </button>
+              <!-- Question 1a.vii & 1a.viii: Register and Cancel buttons -->
+              <div class="form-row" style="margin-top: 2rem">
+                <button type="submit" class="btn btn-primary">Register</button>
+                <button type="button" id="cancelBtn" class="btn btn-secondary">
+                  Cancel
+                </button>
+              </div>
             </form>
 
             <div class="auth-footer">
@@ -235,6 +321,6 @@
     </footer>
 
     <script src="../js/main.js"></script>
-    <script src="../js/validation.js"></script>
+    <script src="../js/registration.js"></script>
   </body>
 </html>

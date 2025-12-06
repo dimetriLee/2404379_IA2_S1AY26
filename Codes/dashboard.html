@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Admin Dashboard for User Frequency and Invoices"
+    />
+    <title>Dashboard - Face Off Analytics</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <header role="banner">
+      <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container">
+          <a href="../index.html" class="nav-brand">
+            <img
+              src="../assets/logo.png"
+              alt="Face Off - Lacrosse Equipment"
+              class="logo"
+            />
+          </a>
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li>
+              <a href="cart.html" class="cart-link">
+                Cart (<span id="cartCount">0</span>)
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main class="dashboard-container">
+      <h1 class="page-title">Analytics Dashboard</h1>
+
+      <div class="dashboard-grid">
+        <section class="card" aria-labelledby="frequency-title">
+          <h2 id="frequency-title" class="section-title">
+            User Registration Frequency
+          </h2>
+          <p>
+            This chart is generated using `ShowUserFrequency()` to analyze data
+            from `RegistrationData`.
+          </p>
+
+          <h3 style="margin-top: 20px">Gender Breakdown</h3>
+          <div id="genderChart" class="chart-container">
+            <p>Loading gender data...</p>
+          </div>
+
+          <h3 style="margin-top: 20px">Age Group Breakdown</h3>
+          <div id="ageChart" class="chart-container">
+            <p>Loading age data...</p>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="invoice-title">
+          <h2 id="invoice-title" class="section-title">Invoice Retrieval</h2>
+          <p>
+            Use the forms below to retrieve invoice data. Results are displayed
+            in the **browser console (F12)** as required by the assignment.
+          </p>
+
+          <div style="margin-top: 30px">
+            <h3>Retrieve User's Invoices (`GetUserInvoices`)</h3>
+            <p style="font-size: 0.9em">
+              Search the `RegistrationData` for a user's invoice history.
+            </p>
+            <form id="getUserInvoicesForm" class="search-form">
+              <input
+                type="text"
+                id="userTrnInput"
+                placeholder="Enter 9-digit TRN"
+                maxlength="9"
+                required
+              />
+              <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+          </div>
+
+          <div style="margin-top: 30px">
+            <h3>Search All Invoices (`ShowInvoices`)</h3>
+            <p style="font-size: 0.9em">
+              Display all invoices or search `AllInvoices` by TRN.
+            </p>
+            <form id="showInvoicesForm" class="search-form">
+              <input
+                type="text"
+                id="allInvoicesTrnInput"
+                placeholder="Enter TRN to search (optional)"
+                maxlength="9"
+              />
+              <button type="submit" class="btn btn-primary">Show/Search</button>
+            </form>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <footer class="footer" role="contentinfo" id="footer">
+      <div class="container">
+        <div class="footer-bottom">
+          <p>&copy; 2025 Face Off Lacrosse Equipment. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+  </body>
+</html>

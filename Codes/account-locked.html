@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Account locked - Face Off" />
+    <title>Account Locked - Face Off</title>
+    <link rel="stylesheet" href="../style.css" />
+  </head>
+  <body>
+    <!-- Skip to main content link for screen readers -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Navigation -->
+    <header role="banner">
+      <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container">
+          <a href="../index.html" class="nav-brand">
+            <img
+              src="../assets/logo.png"
+              alt="Face Off - Lacrosse Equipment"
+              class="logo"
+            />
+          </a>
+
+          <button
+            class="mobile-toggle"
+            id="mobileToggle"
+            aria-label="Toggle navigation"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li>
+              <a href="cart.html" class="cart-link">
+                Cart (<span id="cartCount">0</span>)
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Account Locked Content -->
+    <main class="error-page" id="main-content">
+      <div class="container">
+        <div class="error-container">
+          <div class="error-icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+          </div>
+
+          <h1 class="error-title">Account Locked</h1>
+
+          <p class="error-message">
+            Your account has been temporarily locked due to multiple failed
+            login attempts.
+          </p>
+
+          <div class="error-details">
+            <h2>What happened?</h2>
+            <p>
+              For security reasons, we lock accounts after 3 unsuccessful login
+              attempts. This helps protect your account from unauthorized
+              access.
+            </p>
+          </div>
+
+          <div class="error-actions">
+            <h2>What can you do?</h2>
+            <ul class="error-list">
+              <li>Wait a few minutes and try logging in again</li>
+              <li>
+                Make sure you're using the correct TRN (Tax Registration Number)
+              </li>
+              <li>Double-check your password</li>
+              <li>
+                Use the "Reset Password" option if you've forgotten your
+                password
+              </li>
+            </ul>
+          </div>
+
+          <div class="error-buttons">
+            <button id="unlockAccountBtn" class="btn btn-primary btn-large">
+              Unlock Account & Try Again
+            </button>
+            <a href="reset-password.html" class="btn btn-secondary btn-large">
+              Reset Password
+            </a>
+            <a href="../index.html" class="btn btn-secondary">
+              Return to Home
+            </a>
+          </div>
+
+          <div class="error-help">
+            <p>
+              Need help?
+              <a href="mailto:dimetrialee@students.utech.edu.jm"
+                >Contact Support</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo" id="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-section">
+            <h3>Face Off</h3>
+            <p>Your premier destination for lacrosse equipment and gear.</p>
+          </div>
+
+          <div class="footer-section">
+            <h4>Quick Links</h4>
+            <nav aria-label="Footer navigation">
+              <ul>
+                <li><a href="products.html">Products</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="cart.html">Shopping Cart</a></li>
+              </ul>
+            </nav>
+          </div>
+
+          <div class="footer-section">
+            <h4>Connect</h4>
+            <p>
+              Email:
+              <a href="mailto:dimetrialee@students.utech.edu.jm"
+                >dimetrialee@students.utech.edu.jm</a
+              >
+            </p>
+            <p>Phone: <a href="tel:+18768629958">1 (876)862-9958</a></p>
+          </div>
+        </div>
+
+        <div class="footer-bottom">
+          <p>&copy; 2025 Face Off Lacrosse Equipment. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+      // Unlock account functionality
+      document
+        .getElementById("unlockAccountBtn")
+        .addEventListener("click", function () {
+          // Clear the account lock from sessionStorage
+          sessionStorage.removeItem("accountLocked");
+          sessionStorage.removeItem("loginAttempts");
+
+          alert("Account unlocked! You can now try logging in again.");
+          window.location.href = "login.html";
+        });
+    </script>
+  </body>
+</html>

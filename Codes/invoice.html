@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="View your generated invoice" />
+    <title>Invoice - Face Off</title>
+    <link rel="stylesheet" href="../style.css" />
+    <link rel="stylesheet" href="../css/invoice.css" />
+  </head>
+  <body>
+    <header role="banner">
+      <nav class="navbar" role="navigation" aria-label="Main navigation">
+        <div class="container">
+          <a href="../index.html" class="nav-brand">
+            <img
+              src="../assets/logo.png"
+              alt="Face Off - Lacrosse Equipment"
+              class="logo"
+            />
+          </a>
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="products.html">Products</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="login.html">Login</a></li>
+            <li>
+              <a href="cart.html" class="cart-link">
+                Cart (<span id="cartCount">0</span>)
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+
+    <main class="invoice-page">
+      <div class="container">
+        <div class="invoice-box" id="invoiceBox" style="display: none">
+          <div class="invoice-header">
+            <div>
+              <h2>INVOICE</h2>
+              <p>Invoice #<span id="invoiceNumber"></span></p>
+            </div>
+            <img
+              src="../assets/logo.png"
+              alt="Company Logo"
+              style="width: 100%; max-width: 150px"
+            />
+          </div>
+
+          <div class="invoice-details">
+            <div>
+              <strong>Billed To:</strong>
+              <p id="billingName"></p>
+              <p id="billingEmail"></p>
+              <p id="billingPhone"></p>
+            </div>
+            <div>
+              <strong>Date:</strong> <span id="invoiceDate"></span><br />
+              <strong>Company:</strong> <span id="companyName"></span><br />
+              <strong>TRN:</strong> <span id="userTRN"></span>
+            </div>
+          </div>
+
+          <div class="invoice-billing">
+            <div>
+              <strong>Ship To:</strong>
+              <p id="shippingAddress"></p>
+            </div>
+          </div>
+
+          <div class="invoice-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Item</th>
+                  <th>Qty</th>
+                  <th>Unit Price</th>
+                  <th>Discount (%)</th>
+                  <th>Line Total</th>
+                </tr>
+              </thead>
+              <tbody id="invoiceItems"></tbody>
+            </table>
+          </div>
+
+          <div class="invoice-totals">
+            <div>
+              <span>Subtotal:</span>
+              <span id="subtotal"></span>
+            </div>
+            <div>
+              <span>Tax (10%):</span>
+              <span id="taxes"></span>
+            </div>
+            <div>
+              <span>Shipping:</span>
+              <span id="shippingFee"></span>
+            </div>
+            <div class="total-row">
+              <span>**TOTAL DUE:**</span>
+              <span id="total"></span>
+            </div>
+          </div>
+        </div>
+        <div
+          id="errorMessage"
+          style="
+            text-align: center;
+            color: red;
+            margin-top: 20px;
+            display: block;
+          "
+        >
+          Loading invoice...
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer" role="contentinfo" id="footer">
+      <div class="container">
+        <div class="footer-bottom">
+          <p>&copy; 2025 Face Off Lacrosse Equipment. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/invoice.js"></script>
+  </body>
+</html>

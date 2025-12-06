@@ -171,10 +171,6 @@ function handleRegisterSubmit(event) {
   }
 }
 
-// ====================================
-// Checkout Form Validation
-// ====================================
-
 function handleCheckoutSubmit(event) {
   event.preventDefault();
 
@@ -317,10 +313,6 @@ function handleCheckoutSubmit(event) {
   }
 }
 
-// ====================================
-// Validation Helper Functions
-// ====================================
-
 // Email validation
 function validateEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -346,7 +338,7 @@ function validateZip(zip) {
   return zipRegex.test(zip);
 }
 
-// Card number validation (basic check for 13-19 digits)
+// Card number validation
 function validateCardNumber(cardNumber) {
   const digits = cardNumber.replace(/\s/g, "");
   const cardRegex = /^\d{13,19}$/;
@@ -384,10 +376,6 @@ function validateCVV(cvv) {
   return cvvRegex.test(cvv);
 }
 
-// ====================================
-// Input Formatting Functions
-// ====================================
-
 // Format card number with spaces
 function formatCardNumber(event) {
   let value = event.target.value.replace(/\s/g, "");
@@ -408,10 +396,6 @@ function formatExpiryDate(event) {
 
   event.target.value = value;
 }
-
-// ====================================
-// Error Display Functions
-// ====================================
 
 // Show error message
 function showError(errorId, message) {
